@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  www_public:
+    build:
+      context: './sites/www_public/'
+    networks:
+      - frontend_www
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PWD}/sites/www_public:/usr/src/app
+      - /usr/src/app/node_modules
+  php:
+    image: pimcore/pimcore:php8.1-debug-latest
+    environment:
+      COMPOSER_HOME: /var/www/html
+      PHP_IDE_CONFIG: serverName=localhost
+    networks:
+      - backend
+    volumes:
+      - ${PROJECT_ROOT}/:/var/www/html/
+    container_name: php
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-latest}
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data:rw
+    networks:
+      - backend
+    environment:
+      POSTGRES_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      POSTGRES_HOST: "${DB_HOST}"
+      POSTGRES_DATABASE: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    container_name: postgres
+  apache:
+    build:
+      context: './docker/apache/'
+      args:
+       APACHE_VERSION: ${APACHE_VERSION}
+    depends_on:
+      - php
+      # - mysql
+    networks:
+      - frontend_www
+      - backend
+    ports:
+      - "80:80"
+    volumes:
+      - ${PROJECT_ROOT}/:/var/www/html/
+    container_name: apache
+networks:
+  frontend_www:
+  backend:
+volumes:
+    data:
