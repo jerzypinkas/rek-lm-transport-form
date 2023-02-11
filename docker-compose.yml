@@ -1,41 +1,50 @@
 version: "3.8"
 services:
+  redis:
+    image: redis:alpine
+    command: [ redis-server, --maxmemory 128mb, --maxmemory-policy volatile-lru, --save "" ]
   www_public:
     build:
       context: './sites/www_public/'
-    networks:
-      - frontend_www
+#    networks:
+#      - frontend_www
     ports:
       - "3000:3000"
     volumes:
       - ${PWD}/sites/www_public:/usr/src/app
       - /usr/src/app/node_modules
   php:
+    user: ${USER_ID}
     image: pimcore/pimcore:php8.1-debug-latest
     environment:
-      COMPOSER_HOME: /var/www/html
+      COMPOSER_HOME: /var/www/html/
       PHP_IDE_CONFIG: serverName=localhost
-    networks:
-      - backend
+#    networks:
+#      - backend
     volumes:
       - ${PROJECT_ROOT}/:/var/www/html/
-    container_name: php
-  postgres:
-    image: postgres:${POSTGRES_VERSION:-latest}
-    restart: always
-    ports:
-      - "5432:5432"
+  supervisord:
+    user: ${USER_ID}
+    image: pimcore/pimcore:php8.1-supervisord-latest
     volumes:
-      - data:/var/lib/postgresql/data:rw
-    networks:
-      - backend
+      - ${PROJECT_ROOT}/:/var/www/html/
+      - ./docker/files/supervisord.conf:/etc/supervisor/conf.d/pimcore.conf:ro
+  db:
+    image: mariadb:latest
+    working_dir: /application
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-per-table=1]
+    volumes:
+      - pimcore-database:/var/lib/mysql
     environment:
-      POSTGRES_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      POSTGRES_HOST: "${DB_HOST}"
-      POSTGRES_DATABASE: "${DB_NAME}"
-      POSTGRES_USER: "${DB_USERNAME}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-    container_name: postgres
+#      - DB_HOST=127.0.0.1
+      - MYSQL_ROOT_PASSWORD=ROOT
+      - MYSQL_DATABASE=pimcore
+      - MYSQL_USER=pimcore
+      - MYSQL_PASSWORD=pimcore
+#    networks:
+#      - backend
+    ports:
+      - "3306:3306"
   apache:
     build:
       context: './docker/apache/'
@@ -44,16 +53,15 @@ services:
     depends_on:
       - php
       # - mysql
-    networks:
-      - frontend_www
-      - backend
+#    networks:
+#      - frontend_www
+#      - backend
     ports:
       - "80:80"
     volumes:
       - ${PROJECT_ROOT}/:/var/www/html/
-    container_name: apache
-networks:
-  frontend_www:
-  backend:
+#networks:
+#  frontend_www:
+#  backend:
 volumes:
-    data:
+    pimcore-database:
