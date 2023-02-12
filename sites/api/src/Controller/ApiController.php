@@ -11,7 +11,7 @@ use \Pimcore\Controller\FrontendController;
 
 class ApiController extends FrontendController
 {
-    #[Route('/api', name: "get_transports", methods: ['GET'])]
+    #[Route('/api/transports', name: "get_transports", methods: ['GET'])]
     public function listAction(Request $request): Response
     {
         $data = [];
@@ -43,7 +43,7 @@ class ApiController extends FrontendController
         return $this->json(["success" => true, "data" => $data]);
     }
 
-    #[Route('/api', name: "post_transport", methods: ['POST'])]
+    #[Route('/api/transports', name: "post_transport", methods: ['POST'])]
     public function postAction(Request $request): Response
     {
         $payload = json_decode($request->getContent(), true);
