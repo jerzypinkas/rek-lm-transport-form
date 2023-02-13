@@ -76,7 +76,7 @@ class TransportApi implements ApiInterface
         try {
             $newTransport->save();
         } catch (\Exception $exception) {
-            throw new \Exception('Transport order data save failed.');
+            throw new \Exception('Transport order data save failed. ' . $exception->getMessage());
         }
 
         foreach ($items['items'] as $item) {
@@ -96,7 +96,7 @@ class TransportApi implements ApiInterface
         try {
             $newTransport->save();
         } catch (\Exception $exception) {
-            throw new \Exception('Transport order items save failed.');
+            throw new \Exception('Transport order items save failed. ' . $exception->getMessage());
         }
 
         $data[] = $this->getItem($newTransport->getId());

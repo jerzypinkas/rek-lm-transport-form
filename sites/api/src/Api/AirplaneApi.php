@@ -57,7 +57,7 @@ class AirplaneApi implements ApiInterface
             try {
                 $airplane->save();
             } catch (\Exception $exception) {
-                throw new \Exception('Transport order data save failed.');
+                throw new \Exception('Transport order data save failed. ' . $exception->getMessage());
             }
 
             $data[] = $this->getItem($item['name']);
