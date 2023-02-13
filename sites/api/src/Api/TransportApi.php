@@ -1,23 +1,29 @@
 <?php
 
-namespace App\Controller;
+namespace App\Api;
 
 use Carbon\Carbon;
 use Pimcore\Model\DataObject;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use \Pimcore\Controller\FrontendController;
 
-class ApiController extends FrontendController
+class TransportApi implements ApiInterface
 {
-    #[Route('/api/transports', name: "get_transports", methods: ['GET'])]
-    public function listAction(Request $request): Response
+    public function get(): array
+    {
+        return $this->searchItems();
+    }
+
+    public function getItem(string $name): array
+    {
+        return $this->searchItems($name)[0];
+    }
+
+    private function searchItems(?int $id = null): array
     {
         $data = [];
-        $transports = new DataObject\TransportOrder\Listing;
+        $transports = (!$id) ? new DataObject\TransportOrder\Listing : [DataObject\TransportOrder::getById($id)];
 
         foreach ($transports as $key => $transport) {
+
             $items = [];
             $transportItems = $transport->getItems();
 
@@ -40,36 +46,40 @@ class ApiController extends FrontendController
             );
         }
 
-        return $this->json(["success" => true, "data" => $data]);
+        return $data;
     }
 
-    #[Route('/api/transports', name: "post_transport", methods: ['POST'])]
-    public function postAction(Request $request): Response
+    /**
+     * @throws \Exception
+     */
+    public function post(array $items): array
     {
-        $payload = json_decode($request->getContent(), true);
+        $data = [];
 
         $newTransport = new DataObject\TransportOrder();
 
-
-        $newTransport->setKey($payload['from'] . '-' . $payload['to'] . uniqid());
-
+        $key = $items['from'] . '-' . $items['to'] . uniqid();
+        $newTransport->setKey($key);
         $newTransport->setParentId(1);
 
-        $newTransport->setFrom($payload['from']);
-        $newTransport->setTo($payload['to']);
+        $newTransport->setFrom($items['from']);
+        $newTransport->setTo($items['to']);
 
-
-        $airplanes = DataObject\Airplane::getByName($payload['airplane']);
+        $airplanes = DataObject\Airplane::getByName($items['airplane']);
         foreach ($airplanes as $airplane) {
             $newTransport->setAirplane(DataObject::getById($airplane->getId()));
         }
 
-        $newTransport->setDate(Carbon::createFromFormat('Y-m-d', $payload['date']));
+        $newTransport->setDate(Carbon::createFromFormat('Y-m-d', $items['date']));
         $newTransport->setPublished(true);
 
-        $newTransport->save();
+        try {
+            $newTransport->save();
+        } catch (\Exception $exception) {
+            throw new \Exception('Transport order data save failed.');
+        }
 
-        foreach ($payload['items'] as $item) {
+        foreach ($items['items'] as $item) {
             $newTransportItem = new DataObject\TransportItem();
 
             $newTransportItem->setParent($newTransport);
@@ -83,10 +93,14 @@ class ApiController extends FrontendController
             $newTransport->setItems($newTransportItem);
         }
 
+        try {
+            $newTransport->save();
+        } catch (\Exception $exception) {
+            throw new \Exception('Transport order items save failed.');
+        }
 
+        $data[] = $this->getItem($newTransport->getId());
 
-        $newTransport->save();
-
-        return $this->json(["success" => true, "data" => $payload]);
+        return $data;
     }
 }

@@ -59,6 +59,9 @@ services:
         resource: '../src/Command/*'
         tags: [ 'console.command' ]
 
+    # auto-register all apis as services
+    App\Api\:
+        resource: '../src/Api/*'
 
 
     # Example custom templating helper
