@@ -22,12 +22,12 @@ services:
 #    networks:
 #      - backend
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
   supervisord:
     user: ${USER_ID}
     image: pimcore/pimcore:php8.1-supervisord-latest
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
       - ./docker/files/supervisord.conf:/etc/supervisor/conf.d/pimcore.conf:ro
   db:
     image: mariadb:latest
@@ -46,6 +46,7 @@ services:
     ports:
       - "3306:3306"
   apache:
+    user: ${USER_ID}
     build:
       context: './docker/apache/'
       args:
@@ -59,7 +60,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
 #networks:
 #  frontend_www:
 #  backend:
