@@ -38,6 +38,9 @@ class AirplaneApi implements ApiInterface
         return $data;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function post(array $items): array
     {
         $data = [];
@@ -51,7 +54,11 @@ class AirplaneApi implements ApiInterface
             $airplane->setPayload($item['payload']);
             $airplane->setPublished(true);
 
-            $airplane->save();
+            try {
+                $airplane->save();
+            } catch (\Exception $exception) {
+                throw new \Exception('Transport order data save failed.');
+            }
 
             $data[] = $this->getItem($item['name']);
         }
