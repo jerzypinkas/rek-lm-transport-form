@@ -6,8 +6,6 @@ services:
   www_public:
     build:
       context: './sites/www_public/'
-#    networks:
-#      - frontend_www
     ports:
       - "3000:3000"
     volumes:
@@ -19,15 +17,13 @@ services:
     environment:
       COMPOSER_HOME: /var/www/html/
       PHP_IDE_CONFIG: serverName=localhost
-#    networks:
-#      - backend
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
   supervisord:
     user: ${USER_ID}
     image: pimcore/pimcore:php8.1-supervisord-latest
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
       - ./docker/files/supervisord.conf:/etc/supervisor/conf.d/pimcore.conf:ro
   db:
     image: mariadb:latest
@@ -36,13 +32,10 @@ services:
     volumes:
       - pimcore-database:/var/lib/mysql
     environment:
-#      - DB_HOST=127.0.0.1
       - MYSQL_ROOT_PASSWORD=ROOT
       - MYSQL_DATABASE=pimcore
       - MYSQL_USER=pimcore
       - MYSQL_PASSWORD=pimcore
-#    networks:
-#      - backend
     ports:
       - "3306:3306"
   apache:
@@ -52,16 +45,9 @@ services:
        APACHE_VERSION: ${APACHE_VERSION}
     depends_on:
       - php
-      # - mysql
-#    networks:
-#      - frontend_www
-#      - backend
     ports:
       - "80:80"
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
-#networks:
-#  frontend_www:
-#  backend:
+      - ${PROJECT_ROOT}/:/var/www/html/:rw
 volumes:
     pimcore-database:
