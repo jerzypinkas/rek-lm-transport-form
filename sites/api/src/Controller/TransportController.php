@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Api\TransportApi;
+use App\Api\ValidationTransportOrderPayload;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,9 +19,14 @@ class TransportController extends FrontendController
     }
 
     #[Route('', name: "post_transports", methods: ['POST'])]
-    public function postAction(Request $request, TransportApi $transportApi): Response
+    public function postAction(Request $request, TransportApi $transportApi, ValidationTransportOrderPayload $validator): Response
     {
         $payload = json_decode($request->getContent(), true);
+
+        $errors = $validator->validate($payload);
+        if(!empty($errors)) {
+            return $this->json(["success" => false, "data" => $errors], 422);
+        }
 
         return $this->json(["success" => true, "data" => $transportApi->post($payload)], 201);
     }

@@ -21,6 +21,7 @@ class AirplaneController extends FrontendController
     public function postAction(Request $request, AirplaneApi $airplaneApi): Response
     {
         $payload = json_decode($request->getContent(), true);
+        $payload['data'] = array_udiff($payload['data'], $airplaneApi->get(), fn($a, $b) => $a['name'] <=> $b['name']);
 
         return $this->json(["success" => true, "data" => $airplaneApi->post($payload['data'])], 201);
     }
