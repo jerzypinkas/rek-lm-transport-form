@@ -38,11 +38,15 @@
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 
+# Tests
+*phpunit.result.cache
+*phpunit.cache
+
 # composer
 /vendor/
 
 # PhpStorm / IDEA
-.idea
+*.idea
 # NetBeans
 nbproject
 
