@@ -59,6 +59,13 @@ services:
         resource: '../src/Command/*'
         tags: [ 'console.command' ]
 
+    # auto-register all apis as services
+    App\Api\:
+        resource: '../src/Api/*'
+
+    App\EventListener\TransportOrderListener:
+        tags:
+            - { name: kernel.event_listener, event: pimcore.dataobject.postAdd, method: onPostAdd }
 
 
     # Example custom templating helper
