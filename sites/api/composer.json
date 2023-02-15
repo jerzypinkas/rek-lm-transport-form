@@ -8,6 +8,7 @@
     "process-timeout": 0
   },
   "require": {
+    "nelmio/cors-bundle": "^2.2",
     "pimcore/pimcore": "^10.5",
     "symfony/validator": "^5.4"
   },
