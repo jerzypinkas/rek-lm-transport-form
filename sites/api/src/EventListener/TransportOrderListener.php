@@ -25,22 +25,25 @@ class TransportOrderListener
                 get_class($transportOrder) === 'Pimcore\Model\DataObject\TransportOrder'
             ) {
                 try {
+                    $airplane = $transportOrder->getAirplane();
+
                     $mail = new \Pimcore\Mail();
-                    $mail->to('jerzy@pinkas.pl');
+                    $mail->to($airplane->getEmail());
+                    $mail->subject("New order: " . $transportOrder->getFrom() . " - " . $transportOrder->getTo());
 
                     $mail->setParams([
                         'from' => $transportOrder->getFrom(),
                         'to' => $transportOrder->getTo(),
                         'date' => $transportOrder->getDate(),
-                        'airplane' => $transportOrder->getAirplane(),
+                        'airplane' => $airplane->getName(),
                     ]);
                     $mail->html(
-                        "<H1>New TransportOrder</H1>
-                              <p>From: {{ from }} </p>
-                              <p>To: {{ to }} </p>
-                              <p>Date: {{ date }} </p>
-                              <p>Airplane: {{ airplane }} </p>
-                              "
+                        '<H1 style="font-size: 20px;">New AirCargo Transport Order</H1>
+                              <p>From: <b>{{ from }}</b></p>
+                              <p>To: <b>{{ to }}</b></p>
+                              <p>Date: <b>{{ date }}</b></p>
+                              <p>Airplane: <b>{{ airplane }}</b></p>
+                              '
                     );
                     $mail->send();
                 } catch (\Exception $exception) {
