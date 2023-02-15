@@ -5,7 +5,6 @@ namespace App\EventListener;
 use Pimcore\Event\Model\ElementEventInterface;
 use Pimcore\Event\Model\DataObjectEvent;
 use Psr\Log\LoggerInterface;
-use function Sabre\Event\Loop\instance;
 
 class TransportOrderListener
 {
