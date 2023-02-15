@@ -14,8 +14,9 @@ class AirplaneApi implements ApiInterface
 
         foreach ($airplanes as $key => $airplane) {
             $data[$key] = [
-                "name" => $airplane->getName(),
-                "payload" => $airplane->getPayload()
+                'name' => $airplane->getName(),
+                'payload' => $airplane->getPayload(),
+                'email' => $airplane->getEmail()
             ];
         }
 
@@ -31,7 +32,8 @@ class AirplaneApi implements ApiInterface
             $data[] = [
                 'id' => $airplane->getId(),
                 'name' => $airplane->getName(),
-                'payload' => $airplane->getPayload()
+                'payload' => $airplane->getPayload(),
+                'email' => $airplane->getEmail()
             ];
         }
 
@@ -52,6 +54,7 @@ class AirplaneApi implements ApiInterface
 
             $airplane->setName($item['name']);
             $airplane->setPayload($item['payload']);
+            $airplane->setEmail($item['email']);
             $airplane->setPublished(true);
 
             try {
