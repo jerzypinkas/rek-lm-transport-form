@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Api;
+namespace App\Validation;
 
+use App\Api\AirplaneApi;
 use DateTime;
 use DateTimeZone;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ValidationTransportOrderPayload
+class TransportOrderPayload
 {
     private $airplanes;
     private ValidatorInterface $validator;
