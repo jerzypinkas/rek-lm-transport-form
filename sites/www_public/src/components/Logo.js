@@ -13,7 +13,8 @@ class Logo extends React.Component {
             paddingTop: 0,
             paddingBottom: 0,
             marginTop: 0,
-            marginBottom: 0
+            marginBottom: 0,
+            textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25), 4px 8px 14px rgba(0, 0, 0, 0.25)'
         };
 
         return (
