@@ -41,6 +41,7 @@ const Item = ({id, index, removeItem}) => {
                     label="Name"
                     size="small"
                     variant="outlined"
+                    required
                     InputProps={{
                         sx: {width: 200}
                     }}
@@ -52,12 +53,13 @@ const Item = ({id, index, removeItem}) => {
                 label="Weight"
                 size="small"
                 variant="outlined"
+                required
                 InputProps={{
                     startAdornment: <InputAdornment position="start">kg</InputAdornment>,
                     sx: {width: 100}
                 }}
                 />
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="small" required>
                     <InputLabel id="`label-item-type-${id}`">Type</InputLabel>
                     <Select
                         labelId="`label-item-type-${id}`"

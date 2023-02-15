@@ -21,17 +21,16 @@ export default function OrderForm() {
             </Grid2>
 
             <Grid2 xs={6}>
-                <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <FormControl fullWidth required variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="airplane-label">Airplane</InputLabel>
                     <Select
-                        required
                         labelId="airplane-label"
                         id="airplane"
                         // value={airplane}
                         // onChange={handleChange}
                         label="Airplane"
                     >
-                        <MenuItem value="">
+                        <MenuItem>
                             <em>None</em>
                         </MenuItem>
                         <MenuItem value={'airbus'}>Airbus</MenuItem>
