@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^2.16.0",
-    "date-fns": "^2.0.0-beta.5",
-    "moment": "^2.29.4",
-    "react": "^16.8.6",
-    "react-datepicker": "^4.10.0",
-    "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8"
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "@mui/x-date-pickers": "^5.0.18",
+    "dayjs": "^1.11.7",
+    "mui-file-dropzone": "^4.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "2.1.8",
+    "react-uuid": "^2.0.0",
+    "styled-components": "^5.3.6"
   },
   "scripts": {
     "start": "react-scripts start",
