@@ -15,15 +15,17 @@ class App extends Component {
         this.state = {
             airplanes: [],
             totalCargoWeightAllowed: 0,
-            currentCargoWeight: 2
+            currentCargoWeight: 2,
+            items: []
         };
 
+        this.handleSubmit =this.handleSubmit.bind(this);
     }
 
 
     componentDidMount(){
         fetch('http://localhost/api/airplanes', {
-            method: 'GET', // or 'PUT'
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -47,8 +49,97 @@ class App extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log('AASDR$$');
-        console.log(event);
+
+        var totalCargo = 0;
+        var m;
+        var items = [];
+
+        const formData = new FormData(event.currentTarget);
+        const tmpFormData = new FormData();
+
+        let requestBody = {
+            "from": '',
+            "to": '',
+            "date": '',
+            "airplane": '',
+            "items": []
+        }
+
+        formData.forEach((value, property) => {
+            if(property == 'airplane') {
+                requestBody[property] = this.state.airplanes[value].name;
+            } else {
+                m = [];
+                m = property.match(/item\[(?<id>\d)](?<val>.*)/);
+                if(m) {
+                    if(requestBody.items[m[1]] === undefined) {
+                        requestBody.items[m[1]] = {}
+                    }
+                    Object.assign(requestBody.items[m[1]],{[m[2]]: value})
+                    if(m[2] === 'weight') {
+                        totalCargo = totalCargo + parseFloat(value);
+                    }
+                } else {
+                    requestBody[property] = value;
+                }
+
+            }
+        });
+
+        console.log(this.state.totalCargoWeightAllowed, totalCargo);
+        if(totalCargo > this.state.totalCargoWeightAllowed) {
+            return;
+        }
+
+        requestBody.items = requestBody.items.filter(n => n);
+        console.log('rB end', requestBody.items);
+        var emptyFormData = new FormData();
+        var file = document.querySelector('input[type="file"]');
+
+        // emptyFormData.append("file", file.files[0]);
+        // formData.append("document", documentJson); instead of this, use the line below.
+        // emptyFormData.append("data", JSON.stringify(requestBody));
+        // .emptyFormData.getAll()
+        fetch("http://localhost/api/transports",
+            {
+                body: JSON.stringify(requestBody),
+                method: "POST",
+                headers: {
+                    // "Content-Type": "multipart/form-data",
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('resp data', data)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+
+        // const request = new XMLHttpRequest();
+        // request.open("POST", "http://localhost/api/transports");
+        // request.send(formData);
+        // formData.submit();
+        // formData.forEach((value, property) => {
+        //     console.log(property);
+        //     responseBody[property] = value
+        // });
+        // console.log(JSON.stringify(responseBody))
+        // const FD = new FormData();
+        //
+        // // Push our data into our FormData object
+        // for (const [name, value] of Object.entries(event)) {
+        //     // console.log(name, value);
+        //     FD.append(name, value);
+        // }
+        // // FD.forEach(value, key) => {
+        // //     console.log(name, value);
+        // // }
+        // console.log('AASDR$$');
+        // console.log(event.target);
     }
 
   render() {
