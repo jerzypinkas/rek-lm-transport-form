@@ -44,7 +44,7 @@ docker-compose exec php ./vendor/bin/pimcore-install --admin-username=admin --ad
 ## Post-install
 ```
 # build pimcore dataobject classes
-bin/console pimcore:build:classes
+docker-compose exec php bin/console pimcore:build:classes
 ```
 
 There is no datafixtures provider, but we need list of airplanes
