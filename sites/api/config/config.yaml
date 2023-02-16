@@ -91,7 +91,7 @@ pimcore:
     email:
         sender:
             name: 'Pimcore Demo'
-            email: 83fd0e30cabcf5@sandbox.smtp.mailtrap.io
+            email: your_email@example.com
 #        return:
 #            name: ''
 #            email: ''
@@ -136,5 +136,5 @@ framework:
 #### SYMFONY MAILER TRANSPORTS
     mailer:
         transports:
-            main: smtp://83fd0e30cabcf5:330f4fdb496382@sandbox.smtp.mailtrap.io:2525?encryption=tls&auth_mode=login
+            main: smtp://your_email:pass@example.com:2525?encryption=tls&auth_mode=login
 #            pimcore_newsletter: smtp://user:pass@smtp.example.com:port
