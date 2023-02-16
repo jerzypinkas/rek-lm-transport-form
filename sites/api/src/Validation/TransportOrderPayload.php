@@ -61,7 +61,7 @@ class TransportOrderPayload
 
         $now = new DateTime("now", new DateTimeZone("Europe/Warsaw"));
 
-        if($checkDate < $now) {
+        if((int) $checkDate->format("Ymd") < (int) $now->format("Ymd")) {
             return false;
         }
 
