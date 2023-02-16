@@ -28,17 +28,11 @@ const types = [
 
 
 let removeImg = {cursor:'pointer', position: 'absolute', top: '-20px', right: '-20px'};
-const Item = ({id, index, removeItem, cargo, setCargo}) => {
+const Item = ({id, index, removeItem}) => {
 
-    const tmp = [cargo];
-    const cargoInit = [...tmp];
-    const countWeight = (e) => {
-
+    const weightValidation = (e) => {
         const val = e.target.value.replace(/\D/g, '');
         e.target.value = val;
-        setCargo(cargoInit + e.target.value);
-        console.log(e.target.value);
-
     }
 
     return(
@@ -69,7 +63,6 @@ const Item = ({id, index, removeItem, cargo, setCargo}) => {
                     <DeleteIcon />
                 </Fab>
             </div>
-            {/*<div>*/}
                 <TextField
                     id={`item-name-${id}`}
                     name={`item[${id}]name`}
@@ -81,8 +74,6 @@ const Item = ({id, index, removeItem, cargo, setCargo}) => {
                         sx: {width: 228}
                     }}
                 />
-            {/*</div>*/}
-            {/*<div>*/}
                 <TextField
                 id={`item-weight-${id}`}
                 name={`item[${id}]weight`}
@@ -91,7 +82,7 @@ const Item = ({id, index, removeItem, cargo, setCargo}) => {
                 variant="outlined"
                 required
                 pattern="[0-9]*"
-                onChange={countWeight}
+                onChange={weightValidation}
                 InputProps={{
                     inputMode: 'numeric',
                     startAdornment: <InputAdornment position="start">kg</InputAdornment>,
@@ -104,9 +95,7 @@ const Item = ({id, index, removeItem, cargo, setCargo}) => {
                         labelId={`label-item-type-${id}`}
                         name={`item[${id}]type`}
                         id={`item-type-${id}`}
-                        // value="normal"
                         label="Type"
-                        // onChange={handleChange}
                     >
                         <MenuItem value="">
                             <em>Choice</em>
@@ -127,7 +116,6 @@ var contentId = 0;
 const Items = ({setCurrentCargoWeight}) => {
 
     const [content, setContent] = useState([]);
-    const [cargo, setCargo] = useState(0);
 
     useEffect(() => {});
 
@@ -159,14 +147,10 @@ const Items = ({setCurrentCargoWeight}) => {
                                 id={id}
                                 index={i}
                                 removeItem={removeContent}
-                                // setCurrentCargoWeight={setCurrentCargoWeight}
-                                setCargo={setCargo}
-                                cargo={cargo}
                             />
                     )
                 }
             <div onClick={(event) => addContent(event)} style={{display: 'inline-flex'}}>
-                {cargo}
                 <Fab color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>
