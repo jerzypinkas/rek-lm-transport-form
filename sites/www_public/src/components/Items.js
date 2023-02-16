@@ -28,13 +28,17 @@ const types = [
 
 
 let removeImg = {cursor:'pointer', position: 'absolute', top: '-20px', right: '-20px'};
-const Item = ({id, index, removeItem, setCurrentCargoWeight}) => {
+const Item = ({id, index, removeItem, cargo, setCargo}) => {
 
+    const tmp = [cargo];
+    const cargoInit = [...tmp];
     const countWeight = (e) => {
-        // setCurrentCargoWeight(498);
+
         const val = e.target.value.replace(/\D/g, '');
         e.target.value = val;
+        setCargo(cargoInit + e.target.value);
         console.log(e.target.value);
+
     }
 
     return(
@@ -123,6 +127,7 @@ var contentId = 0;
 const Items = ({setCurrentCargoWeight}) => {
 
     const [content, setContent] = useState([]);
+    const [cargo, setCargo] = useState(0);
 
     useEffect(() => {});
 
@@ -154,11 +159,14 @@ const Items = ({setCurrentCargoWeight}) => {
                                 id={id}
                                 index={i}
                                 removeItem={removeContent}
-                                setCurrentCargoWeight={setCurrentCargoWeight}
+                                // setCurrentCargoWeight={setCurrentCargoWeight}
+                                setCargo={setCargo}
+                                cargo={cargo}
                             />
                     )
                 }
             <div onClick={(event) => addContent(event)} style={{display: 'inline-flex'}}>
+                {cargo}
                 <Fab color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>

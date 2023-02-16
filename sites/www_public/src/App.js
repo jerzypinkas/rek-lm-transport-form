@@ -20,7 +20,7 @@ class App extends Component {
         this.state = {
             airplanes: [],
             totalCargoWeightAllowed: 0,
-            currentCargoWeight: 0
+            currentCargoWeight: 2
         };
 
         // this.setTotalCargoWeightAllowed = this.setTotalCargoWeightAllowed.bind(this);
