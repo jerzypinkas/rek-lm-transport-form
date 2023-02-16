@@ -73,7 +73,65 @@ Go to System -> System Settings then expand "Debug" and fill Yours valid email a
 
 
 ### Main application
-http://localhost
+http://localhost:3000
 
 ### Admin application
 http://localhost/admin
+
+## Requests API
+
+### Airplanes list
+```
+curl --location 'http://localhost/api/airplanes'
+```
+### Add an airplane
+```
+curl --location 'http://localhost/api/airplanes' \
+--header 'Content-Type: text/plain' \
+--data-raw '{
+    "data": [
+        {
+            "name": "Airbus A380",
+            "payload": 35000,
+            "email": "airbus@example.com"
+        },
+        {
+            "name": "Boeing 747",
+            "payload": 38000,
+            "email": " boeing@example.com"
+        }
+    ]
+}'
+```
+### Transport orders list
+```
+curl --location 'http://localhost/api/transports'
+```
+### Add transport order
+```
+curl --location 'http://localhost/api/transports' \
+--header 'Content-Type: text/plain' \
+--data '{
+    "from": "Gdańsk",
+    "to": "Honolulu",
+    "date": "2023-02-20",
+    "airplane": "Airbus A380",
+    "items": [
+        {
+            "name": "Goldwasser",
+            "weight": 9400,
+            "type": "normal"
+        },
+        {
+            "name": "Czekolada Bałtyk",
+            "weight": 5600,
+            "type": "dangerous"
+        },
+        {
+            "name": "Piwo Złote Lwy",
+            "weight": 3200,
+            "type": "dangerous"
+        }
+    ]
+}'
+```
