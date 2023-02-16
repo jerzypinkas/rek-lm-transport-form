@@ -51,7 +51,7 @@ export default function OrderForm({airplanes, setTotalCargoWeightAllowed}) {
                 <Calendar />
             </Grid2>
             <Grid2 xs={12} container justifyContent="flex-end" sx={{mt:2, mr:2}}>
-                    <Button type="submit" variant="contained">Order this transport!</Button>
+                    <Button size="large" type="submit" variant="contained">Order transport!</Button>
             </Grid2>
 
         </Grid2>
