@@ -5,3 +5,14 @@
   margin: 10px auto;
   padding: 10px;
 }
+.HeaderImage {
+  background-image: url("/img/airplane.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  height: 119px;
+  max-height: 119px;
+  min-height: 119px;
+  width: 500px;
+  max-width: 500px;
+  min-width: 500px;
+}

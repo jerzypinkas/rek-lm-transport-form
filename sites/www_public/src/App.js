@@ -160,9 +160,8 @@ class App extends Component {
                       <Grid2 xs={6}>
                           <Logo />
                       </Grid2>
-                      <Grid2 xs={6}>
-                          {this.state.totalCargoWeightAllowed}
-                          {/*<Plane currentCargoWeight={this.state.currentCargoWeight} totalCargoWeightAllowed={this.state.totalCargoWeightAllowed} />*/}
+                      <Grid2 xs={6} className="HeaderImage">
+
                       </Grid2>
 
                       <Grid2 xs={8}>
