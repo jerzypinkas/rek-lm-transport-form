@@ -5,8 +5,8 @@ import OrderForm from "./components/OrderForm";
 import DropZone from "./components/DropZone";
 import Logo from "./components/Logo";
 import Items from "./components/Items";
-// import { SnackbarProvider, useSnackbar } from 'notistack';
 import { withSnackbar } from 'notistack';
+
 class App extends Component {
 
     constructor(props) {
@@ -20,15 +20,7 @@ class App extends Component {
         };
 
         this.handleSubmit =this.handleSubmit.bind(this);
-
-        // this.snackbar = { enqueueSnackbar } = useSnackbar();
-        // enqueueSnackbar
     }
-
-    // function getSnackBar() {
-    //     enqueueSnackbar
-    // }
-
 
     componentDidMount(){
         fetch('http://localhost/api/airplanes', {
@@ -104,16 +96,11 @@ class App extends Component {
         var emptyFormData = new FormData();
         var file = document.querySelector('input[type="file"]');
 
-        // emptyFormData.append("file", file.files[0]);
-        // formData.append("document", documentJson); instead of this, use the line below.
-        // emptyFormData.append("data", JSON.stringify(requestBody));
-        // .emptyFormData.getAll()
         fetch("http://localhost/api/transports",
             {
                 body: JSON.stringify(requestBody),
                 method: "POST",
                 headers: {
-                    // "Content-Type": "multipart/form-data",
                     'Accept': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 }
@@ -126,29 +113,6 @@ class App extends Component {
                 this.props.enqueueSnackbar('Something went wrong!.', {variant: 'error', anchorOrigin: { horizontal: 'center', vertical: 'top' }});
                 console.error('Error:', error);
             });
-
-
-        // const request = new XMLHttpRequest();
-        // request.open("POST", "http://localhost/api/transports");
-        // request.send(formData);
-        // formData.submit();
-        // formData.forEach((value, property) => {
-        //     console.log(property);
-        //     responseBody[property] = value
-        // });
-        // console.log(JSON.stringify(responseBody))
-        // const FD = new FormData();
-        //
-        // // Push our data into our FormData object
-        // for (const [name, value] of Object.entries(event)) {
-        //     // console.log(name, value);
-        //     FD.append(name, value);
-        // }
-        // // FD.forEach(value, key) => {
-        // //     console.log(name, value);
-        // // }
-        // console.log('AASDR$$');
-        // console.log(event.target);
     }
 
   render() {
@@ -161,9 +125,7 @@ class App extends Component {
                           <Logo />
                       </Grid2>
                       <Grid2 xs={6} className="HeaderImage">
-
                       </Grid2>
-
                       <Grid2 xs={8}>
                           <OrderForm airplanes={this.state.airplanes} setTotalCargoWeightAllowed={this.setTotalCargoWeightAllowed} />
                       </Grid2>
