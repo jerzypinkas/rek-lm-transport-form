@@ -5,8 +5,8 @@ import OrderForm from "./components/OrderForm";
 import DropZone from "./components/DropZone";
 import Logo from "./components/Logo";
 import Items from "./components/Items";
-
-
+// import { SnackbarProvider, useSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack';
 class App extends Component {
 
     constructor(props) {
@@ -20,7 +20,14 @@ class App extends Component {
         };
 
         this.handleSubmit =this.handleSubmit.bind(this);
+
+        // this.snackbar = { enqueueSnackbar } = useSnackbar();
+        // enqueueSnackbar
     }
+
+    // function getSnackBar() {
+    //     enqueueSnackbar
+    // }
 
 
     componentDidMount(){
@@ -88,6 +95,7 @@ class App extends Component {
 
         console.log(this.state.totalCargoWeightAllowed, totalCargo);
         if(totalCargo > this.state.totalCargoWeightAllowed) {
+            this.props.enqueueSnackbar('Too much cargo! Reduce items!.', {variant: 'error', anchorOrigin: { horizontal: 'center', vertical: 'top' }});
             return;
         }
 
@@ -112,9 +120,10 @@ class App extends Component {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log('resp data', data)
+                this.props.enqueueSnackbar('Transport order send!.', {variant: 'success', anchorOrigin: { horizontal: 'center', vertical: 'top' }});
             })
             .catch((error) => {
+                this.props.enqueueSnackbar('Something went wrong!.', {variant: 'error', anchorOrigin: { horizontal: 'center', vertical: 'top' }});
                 console.error('Error:', error);
             });
 
@@ -173,4 +182,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withSnackbar(App);
