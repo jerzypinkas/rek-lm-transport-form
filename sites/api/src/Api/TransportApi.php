@@ -52,7 +52,7 @@ class TransportApi implements ApiInterface
     /**
      * @throws \Exception
      */
-    public function post(array $items): array
+    public function post(array $items, array $files): array
     {
         $data = [];
 

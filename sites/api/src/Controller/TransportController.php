@@ -28,6 +28,6 @@ class TransportController extends FrontendController
             return $this->json(["success" => false, "data" => $errors], 422);
         }
 
-        return $this->json(["success" => true, "data" => $transportApi->post($payload)], 201);
+        return $this->json(["success" => true, "data" => $transportApi->post($payload, $request->files->all())], 201);
     }
 }
