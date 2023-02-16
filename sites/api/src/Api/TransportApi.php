@@ -32,7 +32,7 @@ class TransportApi implements ApiInterface
                     $items[] = [
                         'name' => $item->getName(),
                         'weight' => $item->getWeight(),
-                        'cargoType' => $item->getCargo_type()
+                        'type' => $item->getCargo_type()
                     ];
                 }
             }
@@ -86,7 +86,7 @@ class TransportApi implements ApiInterface
             $newTransportItem->setKey($item['name'] . '-' . uniqid());
             $newTransportItem->setName($item['name']);
             $newTransportItem->setWeight($item['weight']);
-            $newTransportItem->setCargo_type($item['cargoType']);
+            $newTransportItem->setCargo_type($item['type']);
             $newTransportItem->setPublished(true);
             $newTransportItem->save();
 
