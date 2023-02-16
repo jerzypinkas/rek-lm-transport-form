@@ -27,7 +27,7 @@ export default function Calendar() {
                     onChange={handleChange}
                     disablePast={true}
                     shouldDisableDate={disableWeekends}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => <TextField name="date" {...params} />}
                 />
         </LocalizationProvider>
         </div>

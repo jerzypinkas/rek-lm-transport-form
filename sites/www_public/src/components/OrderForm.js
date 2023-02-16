@@ -10,14 +10,18 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
-export default function OrderForm() {
+export default function OrderForm({airplanes, setTotalCargoWeightAllowed}) {
+    const handleAirplaneChange = (e) => {
+        setTotalCargoWeightAllowed(airplanes[e.target.value].payload);
+    }
+
     return (
         <Grid2 container spacing={3}>
             <Grid2 xs={6}>
-                <TextField fullWidth required id="from" label="From" variant="standard" />
+                <TextField fullWidth required id="from" name="from" label="From" variant="standard" />
             </Grid2>
             <Grid2 xs={6}>
-                <TextField fullWidth required id="to" label="To" variant="standard" />
+                <TextField fullWidth required id="to" name="to" label="To" variant="standard" />
             </Grid2>
 
             <Grid2 xs={6}>
@@ -26,15 +30,19 @@ export default function OrderForm() {
                     <Select
                         labelId="airplane-label"
                         id="airplane"
-                        // value={airplane}
-                        // onChange={handleChange}
+                        onChange={handleAirplaneChange}
                         label="Airplane"
+                        name="airplane"
+                        defaultValue={airplanes[0] || ''}
                     >
                         <MenuItem>
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={'airbus'}>Airbus</MenuItem>
-                        <MenuItem value={'boeing'}>Boeing</MenuItem>
+                        {airplanes.map((option, k) => (
+                            <MenuItem key={option.name} value={k}>
+                                {option.name}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             </Grid2>
