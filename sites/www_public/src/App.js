@@ -47,7 +47,8 @@ class App extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        // console.log(event);
+        console.log('AASDR$$');
+        console.log(event);
     }
 
   render() {

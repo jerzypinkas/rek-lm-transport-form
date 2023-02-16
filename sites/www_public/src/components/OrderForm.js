@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Calendar from "./Calendar";
 
@@ -49,6 +50,10 @@ export default function OrderForm({airplanes, setTotalCargoWeightAllowed}) {
             <Grid2 xs={6}>
                 <Calendar />
             </Grid2>
+            <Grid2 xs={12} container justifyContent="flex-end" sx={{mt:2, mr:2}}>
+                    <Button type="submit" variant="contained">Order this transport!</Button>
+            </Grid2>
+
         </Grid2>
     );
 }
